@@ -5,7 +5,6 @@
 @endsection
 
 
-
 @section('content')
 
 <div class="todo__alert">
@@ -24,8 +23,6 @@
         </ul>
     </div>
     @endif
-
-
 </div>
 
 <div class="todo__content">
@@ -58,7 +55,7 @@
         <h2>Todo検索</h2>
     </div>
     
-    <form class="search-form" action="/todos" method="post">
+    <form class="search-form" action="/todos/search" method="get">
         @csrf
         <div class="search-form__item">
             <input
@@ -115,12 +112,13 @@
                         @method('DELETE')
                         @csrf
                         <div class="delete-form__button">
+                            <input type="hidden" name="id" value="{{ $todo['id'] }}">
                             <button class="delete-form__button-submit" type="submit">削除</button>
                         </div>
                     </form>
                 </td>
             </tr>
-                @endforeach
+            @endforeach
         </table>
     </div>
 </div>
