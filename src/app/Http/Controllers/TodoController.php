@@ -19,7 +19,7 @@ class TodoController extends Controller
 
     public function store(TodoRequest $request) 
     {
-        $todo = $request->only(['content']);
+        $todo = $request->only(['category_id', 'content']);
         Todo::create($todo);
 
         return redirect('/')->with('message', 'Todoを作成しました');
@@ -35,8 +35,15 @@ class TodoController extends Controller
 
     public function destroy(Request $request)
     {
-        Todo::find($request->id)->delete();
+        Todo::find($request->todo_id)->delete();
 
         return redirect('/')->with('message', 'Todoを削除しました');
+    }
+
+    public function search(Request $request)
+    {
+        $todos = Todo::with('category')->CategorySearch($request->category_id)->KeywordSearch($request->keyword)->get();
+
+        return view('index', compact('todos', 'category'));
     }
 }
